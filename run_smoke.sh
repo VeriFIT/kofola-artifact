@@ -55,7 +55,7 @@ echo "=========================================="
 echo ""
 
 # Tools for complementation: kofola, kofola-subs-tup, cola, ranker, spot
-COMPL_TOOLS=("kofola" "kofola-subs-tup" "cola" "ranker" "spot")
+COMPL_TOOLS=("kofola" "kofola-subs-tup" "cola" "ranker" "spot" "kofola-tacas23")
 
 for tool in "${COMPL_TOOLS[@]}"; do
     echo "Running complementation with tool: $tool"
