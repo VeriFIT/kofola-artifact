@@ -7,11 +7,10 @@ Shows terminal tables and generates plots based on evaluation data.
 import sys
 import os
 import importlib
-import warnings
-import contextlib
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from tabulate import tabulate
 
 # Import evaluation functions
 import eval_functions
@@ -99,15 +98,7 @@ def print_section_header(title):
 def main():
     """Main function to load data and display results."""
     
-    print_section_header("Loading Benchmark Data")
-    
-    # Load benchmark data
-    print(f"Loading benchmarks: {', '.join(BENCHES)}")
-    print(f"Loading tools: {', '.join(TOOLS + TOOLS_CHECK)}")
-    print(f"Timeout: {TIMEOUT}s\n")
-    
     df_all = load_benches(BENCHES, TOOLS + TOOLS_CHECK, TIMEOUT)
-    print(f"Loaded {len(df_all)} total entries")
     
     # Build and display statistics for LaTeX
     print_section_header("Complement states statistics")
@@ -127,12 +118,29 @@ def main():
     # Subtract unsupported from OOR and ensure non-negative integer
     df_stats['OOR'] = (df_stats['OOR'] - df_stats['unsupported']).clip(lower=0).astype(int)
     
+    # Compute total number of instances in the requested benches
+    total_instances = df_all[df_all['benchmark'].isin(BENCHES)]['benchmark'].nunique()
+    # In case benchmarks have multiple instances per benchmark, better compute unique names per benchmark
+    # but here we interpret 'all' as number of unique (benchmark,name) pairs across chosen benches
+    total_instances = df_all[df_all['benchmark'].isin(BENCHES)].drop_duplicates(subset=['benchmark', 'name']).shape[0]
+
+    # Add 'all' column and compute 'unsolved' = all - solved - unsupported (clipped at 0)
+    df_stats['all'] = int(total_instances)
+    df_stats['unsolved'] = (df_stats['all'] - df_stats['solved'] - df_stats['unsupported']).clip(lower=0).astype(int)
+    
     # Display statistics table
     # Map internal tool identifiers to display names according to TOOL_MAP for readability
     df_stats_display = df_stats.copy()
     df_stats_display['tool'] = df_stats_display['tool'].map(TOOL_MAP).fillna(df_stats_display['tool'])
+    # Keep only requested columns for display
+    cols_to_show = ['tool', 'unsolved', 'avg', 'unsupported']
+    df_stats_display = df_stats_display.loc[:, [c for c in cols_to_show if c in df_stats_display.columns]]
+
+    # Pretty-print the filtered DataFrame to terminal using tabulate
     print("Statistics DataFrame:")
-    print(df_stats_display.to_string(index=False))
+    headers = list(df_stats_display.columns)
+    table = tabulate(df_stats_display.values, headers=headers, tablefmt="fancy_grid", numalign="right", stralign="left")
+    print(table)
     print()
     
     # Generate plots
