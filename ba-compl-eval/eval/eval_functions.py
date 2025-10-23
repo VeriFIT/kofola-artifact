@@ -24,7 +24,6 @@ def read_latest_result_file(bench, method, tool, timeout):
             if tool in file and timeout_str in file:
                 matching_files.append(os.path.join(root, file))
     if not matching_files:
-        print(f"WARNING: {tool} has no .tasks file for {bench}")
         return ""
     latest_file_name = sorted(matching_files, key = lambda x: x[-23:])[-1]
     with open(latest_file_name) as latest_file:
