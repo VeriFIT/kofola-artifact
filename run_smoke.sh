@@ -35,6 +35,10 @@ echo "Using $CPUS CPUs"
 echo "=========================================="
 echo ""
 
+# Activate the virtual environment
+source .venv/bin/activate
+
+
 # Store the original directory
 ORIG_DIR=$(pwd)
 
