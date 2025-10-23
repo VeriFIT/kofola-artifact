@@ -1,0 +1,47 @@
+spot:
+  cmd: ../bin/spot-wrap.sh $1 --complement
+
+spot-red:
+  cmd: ../bin/spot-wrap.sh $1 --complement --high
+
+kofola:
+  cmd: ../bin/kofola-wrap.sh $1 --complement
+
+kofola-sim-prune:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='sim-ms-prune=yes'
+
+kofola-sim-prune-check:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='sim-ms-prune=yes' --check
+
+kofola-subs-tup:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='nac-alg=subs_tup'
+
+kofola-subs-tup-check:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --check --params='nac-alg=subs_tup'
+
+kofola-break:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='sh-break=yes'
+
+kofola-check:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --check
+
+kofola-red:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --high
+
+kofola-tela:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='tela=yes'
+
+kofola-tela-check:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='tela=yes' --check
+
+kofola-tela-red:
+  cmd: ../bin/kofola-wrap.sh $1 --complement --params='tela=yes' --high
+
+kofola-tacas23:
+  cmd: ../bin/kofola-tacas23-wrap.sh $1 --algo=comp --merge-iwa --merge-det --iw-sim
+
+cola:
+  cmd: ../bin/cola-wrap.sh $1 --determinize=ba --parity --acd --complement --simulation --use-scc
+
+ranker:
+  cmd: ../bin/ranker-wrap.sh $1 --best
