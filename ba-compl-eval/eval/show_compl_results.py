@@ -7,6 +7,8 @@ Shows terminal tables and generates plots based on evaluation data.
 import sys
 import os
 import importlib
+import warnings
+import contextlib
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -104,33 +106,22 @@ def main():
     print(f"Loading tools: {', '.join(TOOLS + TOOLS_CHECK)}")
     print(f"Timeout: {TIMEOUT}s\n")
     
-    df_all = load_benches(BENCHES, TOOLS + TOOLS_CHECK, TIMEOUT)
+    # Suppress Python warnings and any stderr output that may be emitted
+    # by `load_benches` (it may call into C/compiled code or print to stderr).
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        with open(os.devnull, "w") as _devnull:
+            with contextlib.redirect_stderr(_devnull):
+                df_all = load_benches(BENCHES, TOOLS + TOOLS_CHECK, TIMEOUT)
     classification_df = parse_classifications_for_benchmarks(BENCHES)
-    
-    # Join with classification data
-    df_all = join_with_classification(df_all, classification_df)
     
     print(f"Loaded {len(df_all)} total entries")
     
-    # Display simple tables
-    print_section_header("Results Summary (Combined)")
-    print(simple_table(df_all, TOOLS, BENCHES, separately=False))
-    
-    print_section_header("Results Summary (Separate Benchmarks)")
-    print(simple_table(df_all, TOOLS, BENCHES, separately=True))
-    
     # Build and display statistics for LaTeX
-    print_section_header("LaTeX Statistics Table")
+    print_section_header("Complement states statistics")
     
     df_stats = build_complement_stats_df(df_all, TOOLS_PAPER, BENCHES)
     cnt = count_unsupported_instances(BENCHES, TOOLS_PAPER, TIMEOUT)
-    
-    print("Unsupported instances count:")
-    for tool, bench_counts in cnt.items():
-        total = sum(bench_counts.values())
-        if total > 0:
-            print(f"  {tool}: {total} ({bench_counts})")
-    print()
     
     unsupported = {k: sum(v.values()) for k, v in cnt.items()}
     df_unsupported = pd.DataFrame.from_dict(
@@ -148,10 +139,6 @@ def main():
     print("Statistics DataFrame:")
     print(df_stats.to_string(index=False))
     print()
-    
-    # Display LaTeX table
-    print("LaTeX Table:")
-    print(complement_stats_to_latex(df_stats))
     
     # Generate plots
     print_section_header("Generating Plots")
