@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# TACAS Artifact Smoke Test Script
-# This script runs limited complement and inclusion benchmarks for smoke testing
+# TACAS Artifact Full Benchmark Script
+# This script runs all complement and inclusion benchmarks
 
 set -e
 
@@ -30,7 +30,7 @@ while getopts "j:h" option; do
 done
 
 echo "=========================================="
-echo "Starting Smoke Test"
+echo "Starting Full Benchmark Run"
 echo "Using $CPUS CPUs"
 echo "=========================================="
 echo ""
@@ -45,12 +45,12 @@ ORIG_DIR=$(pwd)
 # Change to benchmark directory
 cd "ba-compl-eval/bench"
 
-# Ensure tasks_names.txt is empty before starting the smoke test (clear leftovers)
+# Ensure tasks_names.txt is empty before starting the benchmarks (clear leftovers)
 > tasks_names.txt
 
 echo "=========================================="
 echo "Running Complementation Benchmarks"
-echo "Benchmark: s1s"
+echo "All benchmarks will be run"
 echo "=========================================="
 echo ""
 
@@ -59,7 +59,7 @@ COMPL_TOOLS=("kofola" "kofola-subs-tup" "cola" "ranker" "spot")
 
 for tool in "${COMPL_TOOLS[@]}"; do
     echo "Running complementation with tool: $tool"
-    ./run_bench_compl.sh -t "$tool" -j "$CPUS" s1s
+    ./run_bench_compl.sh -t "$tool" -j "$CPUS"
     echo ""
 done
 
@@ -84,9 +84,45 @@ else
 fi
 echo ""
 
+echo "=========================================="
+echo "Running Inclusion Benchmarks"
+echo "All benchmarks will be run"
+echo "=========================================="
+echo ""
+
+# Tools for inclusion: kofola, spot, spot-forq, forklift, rabit, bait
+INCL_TOOLS=("kofola" "spot" "spot-forq" "forklift" "rabit" "bait")
+
+for tool in "${INCL_TOOLS[@]}"; do
+    echo "Running inclusion with tool: $tool"
+    ./run_bench_incl.sh -t "$tool" -j "$CPUS"
+    echo ""
+done
+
+echo ""
+echo "Processing inclusion results..."
+if [ -f "tasks_names.txt" ]; then
+    # Change to eval directory to run get_local_task scripts
+    cd ../eval
+    while IFS= read -r task_file; do
+        if [ -n "$task_file" ]; then
+            echo "Getting local task: $task_file"
+            ./get_local_task_incl.sh "$task_file"
+        fi
+    done < "../bench/tasks_names.txt"
+    # Return to bench directory
+    cd ../bench
+    # Clear the tasks_names.txt file
+    > tasks_names.txt
+    echo "Inclusion results processed and tasks_names.txt cleared"
+else
+    echo "No tasks_names.txt file found"
+fi
+echo ""
+
 # Return to original directory
 cd "$ORIG_DIR"
 
 echo "=========================================="
-echo "Smoke Test Completed"
+echo "Full Benchmark Run Completed"
 echo "=========================================="

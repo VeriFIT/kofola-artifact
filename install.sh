@@ -67,6 +67,7 @@ install_spot() {
     ./configure --enable-max-accsets=128
     make
     sudo make install
+    sudo ldconfig /usr/local/lib
     
     print_info "Spot installation completed"
 }
