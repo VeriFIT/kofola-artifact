@@ -417,7 +417,7 @@ def get_ax_formatter(log: bool):
                 if abs(v - pow10) <= 1e-12 * max(1.0, v):
                     return f"$10^{{{exp}}}$"
                 mant = v / pow10
-                return f"${{0:g}}\\times10^{{{exp}}}$".format(mant)
+                return f"${mant:g}\\times10^{{{exp}}}$"
 
             try:
                 return [_fmt(val) for val in values]
