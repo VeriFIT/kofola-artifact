@@ -23,7 +23,6 @@ KOFOLA_TACAS23 = "kofola-tacas23-tacas23"
 KOFOLA_SUBS_TUP = "kofola-subs-tup-7bbf4a1"
 SPOT = "spot-2.14.2"
 KOFOLA = "kofola-" + KOFOLA_VERSION
-COLA = "cola-cola"
 RANKER = "ranker-ranker"
 
 # Timeout (in seconds)
@@ -35,7 +34,6 @@ TOOLS = list(dict.fromkeys([
     SPOT,
     KOFOLA_TACAS23,
     KOFOLA_SUBS_TUP,
-    COLA,
     RANKER
 ]))
 
@@ -66,8 +64,7 @@ TOOLS_PAPER = list(dict.fromkeys([
     SPOT,
     KOFOLA_TACAS23,
     KOFOLA_SUBS_TUP,
-    RANKER,
-    COLA
+    RANKER
 ]))
 
 TOOLS_PLOT = list(dict.fromkeys([
@@ -81,7 +78,6 @@ TOOLS_PLOT = list(dict.fromkeys([
 TOOL_MAP = {
     KOFOLA: "Kofola",
     SPOT: "Spot",
-    COLA: "Cola",
     KOFOLA_TACAS23: "KofolaOld",
     KOFOLA_SUBS_TUP: "KofolaSlice",
     RANKER: "Ranker"
