@@ -84,6 +84,22 @@ else
 fi
 echo ""
 
+# After finishing experiments: run the summary script in eval and print its output
+if [ -d "../eval" ]; then
+    echo "Running evaluation summary script: show_compl_results.py"
+    cd ../eval
+    # Run the Python script and capture its output (and errors)
+    if command -v python3 >/dev/null 2>&1; then
+        python3 show_compl_results.py || true
+    else
+        echo "python3 not found; skipping show_compl_results.py"
+    fi
+    # Return to bench directory
+    cd ../bench
+else
+    echo "Eval directory not found; skipping evaluation summary"
+fi
+
 # Return to original directory
 cd "$ORIG_DIR"
 
