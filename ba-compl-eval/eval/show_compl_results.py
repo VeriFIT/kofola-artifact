@@ -120,7 +120,12 @@ def main():
     # Build and display statistics for LaTeX
     print_section_header("Complement states statistics")
     
-    df_stats = build_complement_stats_df(df_all, TOOLS_PAPER, BENCHES)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        # Redirect both stdout and stderr to devnull to silence noisy tools
+        with open(os.devnull, "w") as _devnull:
+            with contextlib.redirect_stdout(_devnull), contextlib.redirect_stderr(_devnull):
+                df_stats = build_complement_stats_df(df_all, TOOLS_PAPER, BENCHES)
     cnt = count_unsupported_instances(BENCHES, TOOLS_PAPER, TIMEOUT)
     
     unsupported = {k: sum(v.values()) for k, v in cnt.items()}
