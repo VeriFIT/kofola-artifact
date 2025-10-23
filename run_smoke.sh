@@ -45,6 +45,9 @@ ORIG_DIR=$(pwd)
 # Change to benchmark directory
 cd "ba-compl-eval/bench"
 
+# Ensure tasks_names.txt is empty before starting the smoke test (clear leftovers)
+> tasks_names.txt
+
 echo "=========================================="
 echo "Running Complementation Benchmarks"
 echo "Benchmark: s1s"
