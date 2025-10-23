@@ -64,7 +64,7 @@ install_ranker() {
     cd "$SCRIPT_DIR"
     print_info "Installing Ranker..."
     
-    cp bin/ranker.tar.gz ba-compl-eval/bin/
+    cp bin/ranker.zip ba-compl-eval/bin/
     cd ba-compl-eval/bin/
     unzip ranker.zip
     cd ranker
