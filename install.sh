@@ -156,21 +156,6 @@ install_bait() {
     print_info "Bait installation completed"
 }
 
-# Function to install Cola
-install_cola() {
-    cd "$SCRIPT_DIR"
-    print_info "Installing Cola..."
-
-    cp bin/COLA.tgz ba-compl-eval/bin/
-    cd ba-compl-eval/bin/
-    tar -xvf COLA.tgz
-    cd COLA
-    ./configure
-    make
-
-    print_info "Cola installation completed"
-}
-
 # Main installation function
 main() {
     print_info "Starting TACAS Artifact installation..."
@@ -180,7 +165,6 @@ main() {
     print_info "  - Ranker"
     print_info "  - Kofola"
     print_info "  - Kofola TACAS23"
-    print_info "  - Cola"
     print_info "  - Rabit"
     print_info "  - Forklift"
     print_info "  - Bait"
@@ -194,7 +178,6 @@ main() {
     install_ranker
     install_kofola
     install_kofola_tacas23
-    install_cola
     install_rabit
     install_forklift
     install_bait

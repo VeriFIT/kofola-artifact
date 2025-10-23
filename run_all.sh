@@ -54,8 +54,8 @@ echo "All benchmarks will be run"
 echo "=========================================="
 echo ""
 
-# Tools for complementation: kofola, kofola-subs-tup, cola, ranker, spot
-COMPL_TOOLS=("kofola" "kofola-subs-tup" "cola" "ranker" "spot")
+# Tools for complementation: kofola, kofola-subs-tup, ranker, spot
+COMPL_TOOLS=("kofola" "kofola-subs-tup" "ranker" "spot")
 
 for tool in "${COMPL_TOOLS[@]}"; do
     echo "Running complementation with tool: $tool"
