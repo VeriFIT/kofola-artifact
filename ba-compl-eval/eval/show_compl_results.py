@@ -106,26 +106,13 @@ def main():
     print(f"Loading tools: {', '.join(TOOLS + TOOLS_CHECK)}")
     print(f"Timeout: {TIMEOUT}s\n")
     
-    # Suppress Python warnings and any stdout/stderr output that may be emitted
-    # by `load_benches` (it may call into C/compiled code or print to stderr).
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        # Redirect both stdout and stderr to devnull to silence noisy tools
-        with open(os.devnull, "w") as _devnull:
-            with contextlib.redirect_stdout(_devnull), contextlib.redirect_stderr(_devnull):
-                df_all = load_benches(BENCHES, TOOLS + TOOLS_CHECK, TIMEOUT)
-    
+    df_all = load_benches(BENCHES, TOOLS + TOOLS_CHECK, TIMEOUT)
     print(f"Loaded {len(df_all)} total entries")
     
     # Build and display statistics for LaTeX
     print_section_header("Complement states statistics")
-    
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        # Redirect both stdout and stderr to devnull to silence noisy tools
-        with open(os.devnull, "w") as _devnull:
-            with contextlib.redirect_stdout(_devnull), contextlib.redirect_stderr(_devnull):
-                df_stats = build_complement_stats_df(df_all, TOOLS_PAPER, BENCHES)
+
+    df_stats = build_complement_stats_df(df_all, TOOLS_PAPER, BENCHES)
     cnt = count_unsupported_instances(BENCHES, TOOLS_PAPER, TIMEOUT)
     
     unsupported = {k: sum(v.values()) for k, v in cnt.items()}
