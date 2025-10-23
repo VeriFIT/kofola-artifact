@@ -17,21 +17,11 @@ importlib.reload(eval_functions)
 from eval_functions import *
 
 # Configuration
-KOFOLA_VERSION = "c729572"
+KOFOLA_VERSION = "7bbf4a1"
 KOFOLA_TACAS23 = "kofola-tacas23-tacas23"
-KOFOLA_SIM_PRUNE = "kofola-sim-prune-af70d5f"
-KOFOLA_SUBS_TUP = "kofola-subs-tup-c729572"
-OLD_KOFOLA = "kofola-4cc321b"
-KOFOLA_BREAK = "kofola-break-afb44c1"
-KOFOLA_RED = "kofola-red-d0fc1c7"
-KOFOLA_TELA = "kofola-tela-d0fc1c7"
-KOFOLA_TELA_RED = "kofola-tela-red-d0fc1c7"
+KOFOLA_SUBS_TUP = "kofola-subs-tup-7bbf4a1"
 SPOT = "spot-2.14.2"
-SPOT_RED = "spot-red-2.14.1"
 KOFOLA = "kofola-" + KOFOLA_VERSION
-KOFOLA_CHECK = "kofola-check-" + KOFOLA_VERSION
-KOFOLA_SIM_PRUNE_CHECK = "kofola-sim-prune-check-2286f10"
-KOFOLA_SUBS_TUP_CHECK = "kofola-subs-tup-check-afb44c1"
 COLA = "cola-cola"
 RANKER = "ranker-ranker"
 
@@ -41,18 +31,14 @@ TIMEOUT = 120
 # Tools list - avoiding duplicates while maintaining order
 TOOLS = list(dict.fromkeys([
     KOFOLA,
-    OLD_KOFOLA,
     SPOT,
     KOFOLA_TACAS23,
     KOFOLA_SUBS_TUP,
-    KOFOLA_SIM_PRUNE,
     COLA,
     RANKER
 ]))
 
-TOOLS_CHECK = list(dict.fromkeys([
-    KOFOLA_CHECK,
-]))
+TOOLS_CHECK = []
 
 BENCHES = [
     "advanced_automata_termination",
