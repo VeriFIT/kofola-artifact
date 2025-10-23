@@ -106,14 +106,14 @@ def main():
     print(f"Loading tools: {', '.join(TOOLS + TOOLS_CHECK)}")
     print(f"Timeout: {TIMEOUT}s\n")
     
-    # Suppress Python warnings and any stderr output that may be emitted
+    # Suppress Python warnings and any stdout/stderr output that may be emitted
     # by `load_benches` (it may call into C/compiled code or print to stderr).
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
+        # Redirect both stdout and stderr to devnull to silence noisy tools
         with open(os.devnull, "w") as _devnull:
-            with contextlib.redirect_stderr(_devnull):
+            with contextlib.redirect_stdout(_devnull), contextlib.redirect_stderr(_devnull):
                 df_all = load_benches(BENCHES, TOOLS + TOOLS_CHECK, TIMEOUT)
-    classification_df = parse_classifications_for_benchmarks(BENCHES)
     
     print(f"Loaded {len(df_all)} total entries")
     
@@ -136,8 +136,11 @@ def main():
     df_stats['OOR'] = (df_stats['OOR'] - df_stats['unsupported']).clip(lower=0).astype(int)
     
     # Display statistics table
+    # Map internal tool identifiers to display names according to TOOL_MAP for readability
+    df_stats_display = df_stats.copy()
+    df_stats_display['tool'] = df_stats_display['tool'].map(TOOL_MAP).fillna(df_stats_display['tool'])
     print("Statistics DataFrame:")
-    print(df_stats.to_string(index=False))
+    print(df_stats_display.to_string(index=False))
     print()
     
     # Generate plots
