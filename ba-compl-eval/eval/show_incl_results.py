@@ -101,13 +101,15 @@ def print_section_header(title: str) -> None:
 def main() -> None:
     """Load inclusion data, print stats, and generate comparison plots."""
 
-    print_section_header("Loading inclusion results")
-
-    # Load non-BA tools
-    df_all_non_ba = load_benches_incl(BENCHES, TOOLS, TIMEOUT)
+    # Load non-BA tools (suppress warnings coming from the loader)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        df_all_non_ba = load_benches_incl(BENCHES, TOOLS, TIMEOUT)
 
     # Load BA tools and convert to HOA-compatible format, then combine
-    df_ba = load_benches_incl(BENCHES, BA_TOOLS, TIMEOUT)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        df_ba = load_benches_incl(BENCHES, BA_TOOLS, TIMEOUT)
     df_ba_hoa = ba_bench_to_hoa(df_ba)
 
     # Combine results by joining on name and benchmark
