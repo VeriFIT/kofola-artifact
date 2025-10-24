@@ -15,6 +15,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 from tabulate import tabulate
+import warnings
 
 # Import evaluation functions
 import eval_functions
@@ -129,6 +130,13 @@ def main() -> None:
             df_stats_display["tool"].map(TOOL_MAP).fillna(df_stats_display["tool"])
         )
 
+    # Rename OOR -> unsolved and drop avg/med columns if present
+    if "OOR" in df_stats_display.columns:
+        df_stats_display = df_stats_display.rename(columns={"OOR": "unsolved"})
+    for _col in ["avg", "med"]:
+        if _col in df_stats_display.columns:
+            df_stats_display = df_stats_display.drop(columns=[_col])
+
     # Pretty-print the DataFrame to terminal using tabulate
     print("Statistics DataFrame:")
     headers = list(df_stats_display.columns)
@@ -163,17 +171,19 @@ def main() -> None:
         print(f"  Generating plot: {file_name}.png")
         try:
             # The plotting function saves the file when file_name_to_save is provided
-            _ = scatter_plot(
-                df_all,
-                TOOL_FOR_COMPARISON,
-                tool,
-                color_column="benchmark",
-                timeout=TIMEOUT,
-                legend_name_map=BENCHMARK_TO_LATEX,
-                tool_name_map=TOOL_MAP,
-                show_legend=False,
-                file_name_to_save=file_name,
-            )
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=RuntimeWarning)
+                _ = scatter_plot(
+                    df_all,
+                    TOOL_FOR_COMPARISON,
+                    tool,
+                    color_column="benchmark",
+                    timeout=TIMEOUT,
+                    legend_name_map=BENCHMARK_TO_LATEX,
+                    tool_name_map=TOOL_MAP,
+                    show_legend=False,
+                    file_name_to_save=file_name,
+                )
         except Exception as e:
             print(f"    Error generating plot for {tool}: {e}")
 
