@@ -139,6 +139,20 @@ def main() -> None:
         if _col in df_stats_display.columns:
             df_stats_display = df_stats_display.drop(columns=[_col])
 
+    # Drop 'solved' column if present and move 'unsolved' to second position
+    if "solved" in df_stats_display.columns:
+        df_stats_display = df_stats_display.drop(columns=["solved"])
+    if "unsolved" in df_stats_display.columns and len(df_stats_display.columns) >= 2:
+        cols = list(df_stats_display.columns)
+        # Ensure 'unsolved' is second column
+        if cols[0] == "unsolved":
+            # Move it to second by swapping with next if possible
+            if len(cols) > 1:
+                cols = [cols[1], "unsolved"] + cols[2:]
+        else:
+            cols = [cols[0], "unsolved"] + [c for c in cols[1:] if c != "unsolved"]
+        df_stats_display = df_stats_display.loc[:, cols]
+
     # Pretty-print the DataFrame to terminal using tabulate
     print("Statistics DataFrame:")
     headers = list(df_stats_display.columns)
