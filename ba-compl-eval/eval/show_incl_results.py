@@ -183,7 +183,7 @@ def main() -> None:
     for tool in TOOLS_PAPER:
         if tool == TOOL_FOR_COMPARISON:
             continue
-        file_name = f"incl_{TOOL_FOR_COMPARISON}_{tool}"
+        file_name = f"incl_{TOOL_MAP.get(TOOL_FOR_COMPARISON, TOOL_FOR_COMPARISON)}_{TOOL_MAP.get(tool, tool)}"
         print(f"  Generating plot: {file_name}.png")
         try:
             # The plotting function saves the file when file_name_to_save is provided

@@ -151,7 +151,7 @@ def main():
     
     for tool in TOOLS_PLOT:
         if tool != TOOL_FOR_COMPARISON:
-            file_name = f"compl_{TOOL_FOR_COMPARISON}_{tool}"
+            file_name = f"compl_{TOOL_MAP.get(TOOL_FOR_COMPARISON, TOOL_FOR_COMPARISON)}_{TOOL_MAP.get(tool, tool)}"
             print(f"  Generating plot: {file_name}.png")
             try:
                 plot = scatter_plot_states(
