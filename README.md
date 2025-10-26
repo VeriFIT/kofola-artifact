@@ -7,7 +7,7 @@ This artifact reproduces the experiments for the paper above. Assume you downloa
 - For the evaluation with default parameters, it is necessary to have at least 4 CPU cores (parallelism is configurable) and 32 GB of RAM memory. 
 - In order  to reproduce the results reported in the paper you should allocate about 8 GiB of memory per CPU
 - If you have fewer resources, you can reduce parallelism with the `-j` parameter (see below).
-- Tested on 5 cores CPU with 64 GB of RAM memory (the estimated running times below are computed on this configuration).
+- Tested on 5 cores amd64 CPU with 64 GB of RAM memory (the estimated running times below are computed wrt this configuration).
 
 ### Installation (~30 min)
 
@@ -58,7 +58,8 @@ cd ~/kofola-artifact
 Parameters for `run_compl_all.sh`:
 - `-j N`  Number of CPUs to use (default: 4). Reduce `-j` if you have fewer CPUs or less memory.
 
-After finishing the `run_compl_all.sh` you should see results corresponding to Table 1 in the paper (page 13) and scatter plots from Fig. 2 (page 14). 
+After finishing the `run_compl_all.sh` you should see results corresponding to Table 1 in the paper (page 13) and scatter plots from Fig. 2 (page 14).
+Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. 
 
 ### Running full INCLUSION experimental suite (~2.6 hours)
 
@@ -73,5 +74,32 @@ Parameters for `run_incl_all.sh`:
 - `-j N`  Number of CPUs to use (default: 4). Reduce `-j` if you have fewer CPUs or less memory.
 
 After finishing the `run_incl_all.sh` you should see results corresponding to Table 2 in the paper (page 13) and scatter plots from Fig. 3 (page 16).
+Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. 
 
 ### Regenerating table results and scatter plots
+
+After running the experiments, you can regenerate the summary tables and scatter plots from the collected results.
+
+1) Activate the Python virtual environment:
+
+```bash
+source kofola-artifact/.venv/bin/activate
+```
+
+2) Complementation results (tables + scatter plots):
+
+```bash
+cd ~/kofola-artifact/ba-compl-eval/eval
+python3 show_compl_results.py
+```
+
+3) Inclusion results (tables + scatter plots):
+
+```bash
+cd ~/kofola-artifact/ba-compl-eval/eval
+python3 show_incl_results.py
+```
+
+- Both scripts print formatted tables that you could see after finishing the experimental evaluation (by running`run_compl_all.sh` and `run_incl_all.sh`). Moreover, it re-generates scatter plots to the folder `~/kofola-artifact/ba-compl-eval/eval/`.
+
+### Reusability
