@@ -1,6 +1,8 @@
 ## Kofola 1.0: A Modular Approach to ω-Regular Complementation and Inclusion Checking
 
-This artifact reproduces the experiments for the paper above. Assume you downloaded the artifact archive, extracted it to your HOME, and you run inside a prepared Ubuntu 25.04 TACAS AE VM with basic build tools pre-installed.
+This artifact reproduces the experiments for the paper above. Assume you downloaded the artifact archive, extracted it to your HOME, and you run inside the prepared TACAS 2026 Artifact Evaluation Virtual Machine with basic build tools pre-installed (Ubuntu 25.04).
+
+- Applying badges: *Available, Functional, Reusable*
 
 ### Hardware requirements
 
@@ -46,7 +48,7 @@ You are supposed to see something like the following summary table (fill in the 
 
 Moreover, in `~/kofola-artifact/ba-compl-eval/eval/` you should see generated scatter plots (comparing kofola with other tools).
 
-### Running full COMPLEMENTATION experimental suite
+### Running full COMPLEMENTATION experimental suite (~4.5 hours)
 
 For reproducing the full results from the paper concerning the complementation, use the following commands.
 
@@ -103,3 +105,37 @@ python3 show_incl_results.py
 - Both scripts print formatted tables that you could see after finishing the experimental evaluation (by running`run_compl_all.sh` and `run_incl_all.sh`). Moreover, it re-generates scatter plots to the folder `~/kofola-artifact/ba-compl-eval/eval/`.
 
 ### Reusability
+Below are quick guidelines to extend the artifact with new tools or new benchmark sets.
+
+#### Kofola sources
+After installation, souce code of Kofola is located at `ba-compl-eval/bin/kofola`. The README file in the Kofola's root folder contains detailed information about the tool.
+
+#### Adding a new tool
+
+- Provide a wrapper script that standardizes how the tool is called by the benchmark runner.
+	- Location: `ba-compl-eval/bin/your-tool-wrap.sh`
+	- Use existing wrappers as templates (e.g., `ba-compl-eval/bin/spot-wrap.sh`, `ba-compl-eval/bin/kofola-wrap.sh`, `ba-compl-eval/bin/rabit-wrap.sh`).
+	- Make sure the script:
+		- Parses inputs consistently with other wrappers (paths to automata, parameters).
+		- Returns appropriate exit codes and produces the expected outputs so the evaluator can parse results.
+		- Is executable (`chmod +x ba-compl-eval/bin/your-tool-wrap.sh`).
+
+- Register the tool in the benchmark configuration so it’s picked up by the runners:
+	- Complementation: add it under `tool:` in `ba-compl-eval/bench/omega-compl.yaml`.
+	- Inclusion: add it under `tool:` in `ba-compl-eval/bench/omega-incl.yaml`.
+	- Point the command to your wrapper script and set any tool-specific parameters.
+
+- For running the experiments on particular benchmarks, use `bench/run_bench_compl.sh` or `bench/run_bench_incl.sh`.
+
+#### Adding new benchmarks
+
+- Create a new `.input` file listing the automata to evaluate (one path per line).
+	- Locations:
+		- Complementation inputs: `ba-compl-eval/bench/inputs/compl/your-benchmark.input`
+		- Inclusion inputs: `ba-compl-eval/bench/inputs/incl/your-benchmark.input`
+	- Contents: plain text with paths to automata files. See existing examples like `ba-compl-eval/bench/inputs/compl/s1s.input`, `ba-compl-eval/bench/inputs/compl/seminator.input`, or `ba-compl-eval/bench/inputs/incl/rabit.input`.
+	- Typical sources live under `ba-compl-eval/automata/automata-benchmarks/...`, but you can reference your own files as well.
+
+- Ensure your new input is referenced by the benchmark configuration as needed:
+	- The full-suite runners (`run_compl_all.sh`, `run_incl_all.sh`) use the inputs configured in `omega-compl.yaml` and `omega-incl.yaml`.
+	- To run only your new set, you can temporarily adjust the corresponding YAML to include just your `.input`, or follow the patterns in `ba-compl-eval/bench/run_bench_compl.sh` / `ba-compl-eval/bench/run_bench_incl.sh`.
