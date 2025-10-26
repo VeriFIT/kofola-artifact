@@ -2,7 +2,7 @@
 
 This artifact reproduces the experiments for the paper above. Assume you downloaded the artifact archive, extracted it to your HOME, and you run inside the prepared TACAS 2026 Artifact Evaluation Virtual Machine with basic build tools pre-installed (Ubuntu 25.04).
 
-- Applying badges: *Available, Functional, Reusable*
+- Applying for badges: *Available, Functional, Reusable*
 
 ### Hardware requirements
 
