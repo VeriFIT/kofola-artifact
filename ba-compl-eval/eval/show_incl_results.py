@@ -172,7 +172,7 @@ def main() -> None:
     # ------------------------------------------------------------------
     print_section_header("Generating Plots")
 
-    plot_dir = Path("plots")
+    plot_dir = Path(".")
     plot_dir.mkdir(exist_ok=True)
 
     print(

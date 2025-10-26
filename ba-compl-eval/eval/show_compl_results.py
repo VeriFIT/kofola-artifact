@@ -143,7 +143,7 @@ def main():
     print_section_header("Generating Plots")
     
     TOOL_FOR_COMPARISON = KOFOLA
-    plot_dir = Path("plots")
+    plot_dir = Path(".")
     plot_dir.mkdir(exist_ok=True)
     
     print(f"Generating scatter plots comparing {TOOL_FOR_COMPARISON} with other tools...")
