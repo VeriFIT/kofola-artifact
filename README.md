@@ -3,6 +3,7 @@
 This artifact reproduces the experiments for the paper above. Assume you downloaded the artifact archive, extracted it to your HOME, and you run inside the prepared TACAS 2026 Artifact Evaluation Virtual Machine with basic build tools pre-installed (Ubuntu 25.04).
 
 - Applying for badges: *Available, Functional, Reusable*
+- Link to the artifact: TODO
 
 ### Hardware requirements
 
@@ -61,7 +62,7 @@ Parameters for `run_compl_all.sh`:
 - `-j N`  Number of CPUs to use (default: 4). Reduce `-j` if you have fewer CPUs or less memory.
 
 After finishing the `run_compl_all.sh` you should see results corresponding to Table 1 in the paper (page 13) and scatter plots from Fig. 2 (page 14).
-Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. 
+Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. Note that the numbers might be a bit different.
 
 ### Running full INCLUSION experimental suite (~2.6 hours)
 
@@ -76,7 +77,7 @@ Parameters for `run_incl_all.sh`:
 - `-j N`  Number of CPUs to use (default: 4). Reduce `-j` if you have fewer CPUs or less memory.
 
 After finishing the `run_incl_all.sh` you should see results corresponding to Table 2 in the paper (page 13) and scatter plots from Fig. 3 (page 16).
-Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. 
+Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. Note that the times and the number of solved instances might be a bit different.
 
 ### Regenerating table results and scatter plots
 
