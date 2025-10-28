@@ -37,11 +37,12 @@ install_dependencies() {
     cd "$SCRIPT_DIR"
     print_info "Installing system dependencies..."
 
-    sudo apt-get update
+    # sudo apt-get update
     # install boost for ranker
-    sudo apt-get install libboost-all-dev
+    # sudo apt-get install libboost-all-dev
     # install python3-venv for virtual environment
-    sudo apt-get install python3-venv
+    # sudo apt-get install python3-venv
+		sudo dpkg -i packages/*
 
     print_info "Creating Python virtual environment..."
     python3 -m venv .venv
@@ -50,8 +51,9 @@ install_dependencies() {
     source .venv/bin/activate
     
     print_info "Installing Python packages from requirements.txt..."
-    pip install --upgrade pip
-    pip install -r ba-compl-eval/requirements.txt
+    # pip install --upgrade pip
+    # pip install -r ba-compl-eval/requirements.txt
+    pip install pip/*
     
     print_info "Dependencies installation completed"
 }
