@@ -61,7 +61,7 @@ cd ~/kofola-artifact
 Parameters for `run_compl_all.sh`:
 - `-j N`  Number of CPUs to use (default: 4). Reduce `-j` if you have fewer CPUs or less memory.
 
-After finishing the `run_compl_all.sh` you should see results corresponding to Table 1 in the paper (page 13) and scatter plots from Fig. 2 (page 14).
+After finishing the `run_compl_all.sh` you should see results corresponding to Table 1 in the paper and scatter plots from Fig. 2.
 Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. Note that the numbers might be a bit different.
 
 ### Running full INCLUSION experimental suite (~2.6 hours)
@@ -76,8 +76,8 @@ cd ~/kofola-artifact
 Parameters for `run_incl_all.sh`:
 - `-j N`  Number of CPUs to use (default: 4). Reduce `-j` if you have fewer CPUs or less memory.
 
-After finishing the `run_incl_all.sh` you should see results corresponding to Table 2 in the paper (page 13) and scatter plots from Fig. 3 (page 16).
-Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. Note that the times and the number of solved instances might be a bit different.
+After finishing the `run_incl_all.sh` you should see results corresponding to Table 2 in the paper and scatter plots from Fig. 3.
+Scatter plots are located in `~/kofola-artifact/ba-compl-eval/eval/`. Note that the times and the number of solved instances might be a bit different, but the overall trend should stay the same.
 
 ### Regenerating table results and scatter plots
 
@@ -109,7 +109,10 @@ python3 show_incl_results.py
 Below are quick guidelines to extend the artifact with new tools or new benchmark sets.
 
 #### Kofola sources
-After installation, souce code of Kofola is located at `ba-compl-eval/bin/kofola`. The README file in the Kofola's root folder contains detailed information about the tool.
+After installation, the source code of Kofola is located at `ba-compl-eval/bin/kofola`. The README file in Kofola's root folder contains detailed information about the tool.
+
+New partial complementation procedures can be added to Kofola into the folder `src/algorithms` (see some of the files there&mdash;e.g., `complement_alg_mh.hpp` and `complement_alg_mh.cpp`&mdash;for inspiration).
+You also need to modify the `select_algorithms()` method in `src/complement/complement_sync.cpp` to pick the new partial algorithm for corresponding component types (again, see how this is done for other algorithms).
 
 #### Adding a new tool
 
