@@ -6,6 +6,9 @@ No network connection should be necessary.
 
 - Applying for badges: *Available, Functional, Reusable*
 - Link to the artifact: https://doi.org/10.5281/zenodo.17457593
+- Link to the artifact repository: https://github.com/VeriFIT/kofola-artifact
+- Link to the tool repository: https://github.com/VeriFIT/kofola
+- Platform: amd64
 
 ### Hardware requirements
 
