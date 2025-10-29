@@ -1,6 +1,8 @@
 ## Kofola 1.0: A Modular Approach to ω-Regular Complementation and Inclusion Checking
 
-This artifact reproduces the experiments for the paper above. Assume you downloaded the artifact archive, extracted it to your HOME, and you run inside the prepared TACAS 2026 Artifact Evaluation Virtual Machine with basic build tools pre-installed (Ubuntu 25.04).
+This artifact reproduces the experiments for the paper above.
+We assume that you downloaded the artifact archive, extracted it in your \$HOME inside the [TACAS 2026 Artifact Evaluation Virtual Machine](https://zenodo.org/records/17171929) with basic build tools pre-installed (Ubuntu 25.04).
+No network connection should be necessary.
 
 - Applying for badges: *Available, Functional, Reusable*
 - Link to the artifact: https://doi.org/10.5281/zenodo.17457593
